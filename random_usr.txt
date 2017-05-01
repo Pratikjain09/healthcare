@@ -1,0 +1,40 @@
+random_usr <- read.csv("/home/prateekjn/Desktop/random_user_info.csv",header = TRUE, sep = ',')
+colSums(is.na(random_usr))
+View(random_usr)
+names(random_usr)
+random_usr_cleaned <- subset(random_usr,select = -c(bio,company,created_at,disk_usage,last_modified,owned_private_repos,total_private_gists,total_private_repos))
+write.csv(random_usr_cleaned,"/home/prateekjn/Desktop/random_user_cleaned.csv")
+str(random_usr_cleaned)
+summary(random_usr_cleaned)
+
+colSums(is.na(dat))
+na.aggregate(dat$followers_count)
+dat$followers_count[is.na(dat$followers_count)] <- 0
+dat <- random_usr_cleaned[,c(2,3)]
+plot(dat, main = "% of favourable responses to follwers_count and followong_count", pch =20, cex =2)
+
+colSums(is.na(dat))
+na.aggregate(dat$followers_count)
+dat$followers_count[is.na(dat$followers_count)] <- 0
+
+na.aggregate(dat$following_count)
+dat$following_count[is.na(dat$following_count)] <- 0
+colSums(is.na(dat))
+
+set.seed(7)
+km1 <- kmeans(dat, 2, nstart=100)
+plot(dat, col =(km1$cluster +1) , main="K-Means result with 2 clusters", pch=20, cex=2)
+
+mydata <- dat
+wss <- (nrow(mydata)-1)*sum(apply(mydata,2,var))
+for (i in 2:10) wss[i] <- sum(kmeans(mydata,centers=i)$withinss)
+plot(1:10, wss, type="b", xlab="Number of Clusters",
+     ylab="Within groups sum of squares",
+     main="Assessing the Optimal Number of Clusters with the Elbow Method",
+     pch=20, cex=2)
+
+set.seed(7)
+km2 = kmeans(dat, 4, nstart=100)
+km2
+
+plot(dat, col =(km2$cluster +1) , main="K-Means result with 6 clusters", pch=20, cex=2)
